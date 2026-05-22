@@ -1,0 +1,15 @@
+{
+  "name": "fcb-news-bot",
+  "version": "1.0.0",
+  "description": "FC Barcelona News Bot for FCB Guwahati",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.4.5",
+    "node-cron": "^3.0.3",
+    "rss-parser": "^3.13.0"
+  }
+}
