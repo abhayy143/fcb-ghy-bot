@@ -11,7 +11,7 @@ const parser = new Parser({
 
 // Updated with reliable and active feeds
 const RSS_FEEDS = [
-    { name: 'Barca Universal', url: 'https://barcauniversal.com/feed/' },
+    { name: '90min Barcelona', url: 'https://www.90min.com/teams/barcelona.rss' },
     { name: 'Everything Barca', url: 'https://everythingbarca.com/feed/' },
     { name: 'Barca Blaugranes', url: 'https://www.barcablaugranes.com/rss/index.xml' }
 ];
