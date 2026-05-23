@@ -1,4 +1,4 @@
-# 🔴🔵 FCB Guwahati News Bot
+# 🔵🔴 FCB Guwahati News Bot
 
 Welcome to the home of the official news bot for the **FCB Guwahati** Discord server! 
 
