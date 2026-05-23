@@ -9,10 +9,11 @@ const parser = new Parser({
     }
 });
 
+// Updated with reliable and active feeds
 const RSS_FEEDS = [
-    { name: 'FC Barcelona Official', url: 'https://www.fcbarcelona.com/en/rss/news' },
-    { name: 'Managing Barca', url: 'https://www.managingbarca.com/rss/current.xml' },
-    { name: 'Barca Blaugranes', url: 'https://www.barcablaugranes.com/rss/current.xml' }
+    { name: 'Barca Universal', url: 'https://barcauniversal.com/feed/' },
+    { name: 'Everything Barca', url: 'https://everythingbarca.com/feed/' },
+    { name: 'Barca Blaugranes', url: 'https://www.barcablaugranes.com/rss/index.xml' }
 ];
 
 async function fetchAndPostNews(client, channelId) {
@@ -75,7 +76,7 @@ async function fetchAndPostNews(client, channelId) {
                 }
             } catch (error) {
                 console.error(`⚠️ Error fetching feed ${feed.name}:`, error.message);
-                // We catch the error here so if one feed goes down, the others still work
+                // Catching the error here ensures that if one feed fails, the others still process
             }
         }
     } catch (error) {

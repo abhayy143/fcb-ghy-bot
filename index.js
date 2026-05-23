@@ -1,16 +1,32 @@
 require('dotenv').config();
 const { Client, GatewayIntentBits } = require('discord.js');
 const cron = require('node-cron');
+const express = require('express');
 const { fetchAndPostNews } = require('./news/fetchNews');
 
-// Create the Discord Client (only requesting permission to view/send in guilds)
+// ==========================================
+// DUMMY WEB SERVER TO KEEP RENDER AWAKE
+// ==========================================
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.get('/', (req, res) => {
+    res.send('Visca el Barça! The FCB Guwahati bot is alive and running.');
+});
+
+app.listen(PORT, () => {
+    console.log(`🌐 Web server running on port ${PORT}`);
+});
+// ==========================================
+
+// Create the Discord Client
 const client = new Client({
     intents: [GatewayIntentBits.Guilds] 
 });
 
 // Event: When the bot successfully logs in
 client.once('ready', () => {
-    console.log(`✅ Visca el Barça! Bot is online as ${client.user.tag}`);
+    console.log(`✅ Bot is online as ${client.user.tag}`);
     
     const channelId = process.env.CHANNEL_ID;
     
@@ -19,7 +35,6 @@ client.once('ready', () => {
     fetchAndPostNews(client, channelId);
 
     // 2. Schedule the fetcher to run every 15 minutes
-    // The cron syntax '*/15 * * * *' means "every 15 minutes"
     cron.schedule('*/15 * * * *', () => {
         console.log('Running 15-minute scheduled news fetch...');
         fetchAndPostNews(client, channelId);
