@@ -3,6 +3,7 @@ const { Client, GatewayIntentBits } = require('discord.js');
 const cron = require('node-cron');
 const express = require('express');
 const { fetchAndPostNews } = require('./news/fetchNews');
+const { fetchAndPostVideos } = require('./youtube/fetchVideos');
 
 // ==========================================
 // DUMMY WEB SERVER TO KEEP RENDER AWAKE
@@ -28,16 +29,28 @@ const client = new Client({
 client.once('ready', () => {
     console.log(`✅ Bot is online as ${client.user.tag}`);
     
-    const channelId = process.env.CHANNEL_ID;
+    // Grab both channel IDs from the environment variables
+    const newsChannelId = process.env.CHANNEL_ID;
+    const youtubeChannelId = process.env.YOUTUBE_CHANNEL_ID;
     
-    // 1. Run the fetcher immediately on startup
-    console.log('Fetching initial news...');
-    fetchAndPostNews(client, channelId);
+    // 1. Run the fetchers immediately on startup
+    console.log('Fetching initial news and videos...');
+    fetchAndPostNews(client, newsChannelId);
+    
+    if (youtubeChannelId) {
+        fetchAndPostVideos(client, youtubeChannelId);
+    } else {
+        console.error('⚠️ YOUTUBE_CHANNEL_ID is missing from your environment variables!');
+    }
 
-    // 2. Schedule the fetcher to run every 15 minutes
+    // 2. Schedule the fetchers to run every 15 minutes
     cron.schedule('*/15 * * * *', () => {
-        console.log('Running 15-minute scheduled news fetch...');
-        fetchAndPostNews(client, channelId);
+        console.log('Running 15-minute scheduled news & video fetch...');
+        fetchAndPostNews(client, newsChannelId);
+        
+        if (youtubeChannelId) {
+            fetchAndPostVideos(client, youtubeChannelId);
+        }
     });
 });
 
